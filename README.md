@@ -33,7 +33,8 @@ Iperf was used to generate traffic through the network, and its output will be s
 
 # Network Topology Plot
 We provided a plot we have generated using the python library matplotlib to plot our fat-tree topology. The file is named fattree_topo.png:
-![Alt text](./fattree_topo.png?raw=true "Fattree Topology Plot")
+
+![4-ary fat-tree topology](fattree.png)
 
 
 # Project Summary
@@ -58,3 +59,5 @@ In conclusion, we spent multiple weeks and countless hours adding functions and 
 1. Iperf Connection Failed: This is seen some times as the output for the iperf client, however we believe it must be due to how iperf not closing the connection properly. We tested multiple times by opening xterm windows on those hosts, and we were not able to find an error. 
 
 2. We were not able to call the controller in mn_ft.py, as the switches would not connect. Therefore we implemented own own bash scripts to run the controller and mininet in separate shell windows. 
+
+3. Messy result files.
