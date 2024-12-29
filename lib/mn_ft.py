@@ -20,7 +20,7 @@ from subprocess import Popen, PIPE
 from argparse import ArgumentParser
 import multiprocessing
 from time import sleep
-from monitor.monitor import monitor_devs_ng
+from monitor import monitor_devs_ng
 import os
 
 ###################################### Hash & Dijkstras Test ######################################################
@@ -116,8 +116,9 @@ def iperfTrafficGen(args, hosts, net):
     print num_lines
     f = open(args.input_file, 'r')
 
-    output = open(args.output_dir+"/data",'a')
+    output = open(args.output_dir+"/data",'w')
     output.write(args.output_dir)
+    output.write("\n")
     t = args.time/(num_lines-1)
     info("Starting Experiment\n")
     for line in f: 
@@ -141,10 +142,25 @@ def iperfTrafficGen(args, hosts, net):
         src_host, dest_host = net.get(h1, h2)
         d_out = dest_host.cmd("iperf -s -p 12345 -t " + str(t) + " &")
         s_out = src_host.cmd("iperf -c "+ dest +" -p 12345 -t " + str(t))
+        s_ping_out = src_host.cmd("ping -c 5 "+dest)
+        d_ping_out = dest_host.cmd("ping -c 5 "+src)
         dest_host.cmd("pkill iperf")
+        dest_host.cmd("pkill ping")
         src_host.cmd("pkill iperf")
-        output.write(s_out+'\n')
+        src_host.cmd("pkill ping")
+        line = []
+        line.append("Source: %s | Destination: %s\n"%(src,dest))
+        line.append("---- PING STATISTICS ----\n")
+        line.append("-> Source-Side:\n"+s_ping_out+"\n")
+        line.append("-> Desination-Side:\n"+d_ping_out+"\n")
+        line.append("---- BANDWIDTH STATISTICS ----\n")
+        line.append("-> Source-Side:\n"+s_out+"\n")
+        line.append("-> Destination-Side:\n"+d_out+"\n")
+        line.append("===================================================\n")
+        lines = "\n".join(line)
+        output.write(lines)
         print h1, h2
+	print lines
     info("Finished\n")
     output.close()
     f.close()
