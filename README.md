@@ -31,8 +31,8 @@ Network Topology (Mininet) Bash Scripts:
 
 Iperf was used to generate traffic through the network, and its output will be saved in lib/results/fattree-{dij/ecmp}/{input-file-name}/data
 
-# Network Topology Plot
-We provided a plot we have generated using the python library matplotlib to plot our fat-tree topology. The file is named fattree_topo.png:
+# Network Topology
+The network topology in use is 4-ary fattree, which was illustrated in the figure below. The file is named fattree_topo.png:
 
 ![4-ary fat-tree topology](fattree.png)
 
